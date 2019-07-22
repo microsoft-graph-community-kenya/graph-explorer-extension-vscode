@@ -37,8 +37,12 @@
     },
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Hello World"
+        "command": "sampleQuery.Click",
+        "title": "click"
+	  },
+	  {
+        "command": "history.populate",
+        "title": "populate"
       }
     ]
   },
