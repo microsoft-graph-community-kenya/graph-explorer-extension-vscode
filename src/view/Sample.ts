@@ -20,7 +20,7 @@ export class Sample extends  TreeItem {
     command?: Command
 
   ) {
-    super(label, collapsibleState);
+    super(`${method}    ${label}`, collapsibleState);
     this.command = command;
     this.method = method;
     this.requestUrl = requestUrl;
