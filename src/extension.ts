@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import SideBar from './sideBar';
+import SideBar from './view/sideBar';
 
 export function activate(context: vscode.ExtensionContext) {
   // tslint:disable-next-line: no-unused-expression
