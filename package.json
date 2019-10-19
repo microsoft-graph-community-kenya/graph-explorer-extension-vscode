@@ -33,7 +33,7 @@
     },
     "commands": [
       {
-        "command": "sampleQuery.Click",
+        "command": "sample.click",
         "title": "click"
       }
     ]
