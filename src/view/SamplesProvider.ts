@@ -1,6 +1,6 @@
 import { TreeDataProvider, TreeItem, ProviderResult, TreeItemCollapsibleState } from 'vscode';
 
-import { SampleCategory } from './SampleCategory';
+import { Sample } from './Sample';
 import { ISample } from '../types';
 
 export default class SamplesProvider implements TreeDataProvider<any> {
@@ -24,7 +24,7 @@ export default class SamplesProvider implements TreeDataProvider<any> {
 
   onDidChangeTreeData?: import("vscode").Event<any> | undefined;
 
-  getTreeItem(category: SampleCategory): TreeItem {
+  getTreeItem(category: TreeItem): TreeItem {
     return category;
   }
 
@@ -34,12 +34,19 @@ export default class SamplesProvider implements TreeDataProvider<any> {
     if (category) {
       const children = this.samplesGroupedByCategory[category.label];
       return children.map((child: any) => {
-        return new TreeItem(child.humanName, TreeItemCollapsibleState.None);
+        return new Sample(child.humanName, 
+          TreeItemCollapsibleState.None,
+          child.method,
+          child.requestUrl,
+          child.docLink,
+          child.headers,
+          child.body,
+          child.tip);
       });
     }
 
     return categories.map((category) => {
-      return new SampleCategory(category, TreeItemCollapsibleState.Collapsed, '');
+      return new TreeItem(category, TreeItemCollapsibleState.Collapsed);
     });
   }
 }

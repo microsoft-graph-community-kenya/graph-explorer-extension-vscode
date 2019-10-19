@@ -1,4 +1,4 @@
-import { TreeDataProvider, window } from 'vscode';
+import { window } from 'vscode';
 import SampleQueryProvider from './SamplesProvider';
 import { samples } from './samples/samples';
 
