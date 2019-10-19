@@ -1,24 +1,6 @@
 import { TreeView, ExtensionContext, window, commands, Uri } from 'vscode';
 import * as vscode from 'vscode';
 import SampleQueryProvider from './SamplesProvider';
-// todo fetch sample response 
-const queriesResponse: any = {
-  'my profile': {
-    '@odata.context':
-      'https://graph.microsoft.com/v1.0/$metadatausers/$entity\n',
-    businessPhones: ['+1 412 555 0109'],
-    displayName: 'Megan Bowen\n',
-    givenName: 'Megan',
-    jobTitle: 'Auditor',
-    mail: 'MeganB@M365x214355.onmicrosoft.com',
-    mobilePhone: null,
-    officeLocation: '12/1110',
-    preferredLanguage: 'en-US',
-    surname: 'Bowen',
-    userPrincipalName: 'MeganB@M365x214355.onmicrosoft.com',
-    id: '48d31887-5fad-4d73-a9f5-3c356e68a038'
-  }
-};
 
 export default class SideBar {
   private sampleQueries: any;

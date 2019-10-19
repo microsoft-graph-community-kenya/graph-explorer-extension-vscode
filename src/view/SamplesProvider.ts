@@ -1,4 +1,7 @@
 import * as vscode from 'vscode';
+
+import { TreeQuery } from './TreeQuery';
+
 const samples = [
   'my profile',
   'may photo',
@@ -32,24 +35,5 @@ export default class SampleQueryProvider
 
   getTreeItem(query: TreeQuery): vscode.TreeItem {
     return query;
-  }
-}
-
-class TreeQuery extends vscode.TreeItem {
-  type: string;
-
-  constructor(
-    type: string,
-    label: string,
-    collapsibleState: vscode.TreeItemCollapsibleState,
-    iconPath:string,
-    command?: vscode.Command
-  ) {
-    super(label, collapsibleState,);
-    this.type = type;
-    this.command = command;
-  
-    this.iconPath = iconPath;
-  
   }
 }
