@@ -15,6 +15,5 @@ export class TreeQuery extends  TreeItem {
     this.command = command;
 
     this.iconPath = iconPath;
-
   }
 }
