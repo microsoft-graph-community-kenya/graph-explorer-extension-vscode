@@ -26,12 +26,8 @@
     "views": {
       "microsoft-graph": [
         {
-          "id": "sample-queries",
-          "name": "Sample Queries"
-        },
-        {
-          "id": "history",
-          "name": "History"
+          "id": "samples",
+          "name": "Samples"
         }
       ]
     },
@@ -39,10 +35,6 @@
       {
         "command": "sampleQuery.Click",
         "title": "click"
-	  },
-	  {
-        "command": "history.populate",
-        "title": "populate"
       }
     ]
   },
