@@ -1,7 +1,7 @@
 import { ISample } from '../../types';
 
 
-export const queries: ISample[] = [
+export const samples: ISample[] = [
   {
     "category": "Getting Started",
     "method": "GET",
