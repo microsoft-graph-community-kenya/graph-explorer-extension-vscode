@@ -28,20 +28,20 @@ export default class SamplesProvider implements TreeDataProvider<any> {
     return category;
   }
 
-  getChildren(category: any): ProviderResult<any[]> {
+  getChildren(sampleCategory: any): ProviderResult<any[]> {
     const categories = Object.keys(this.samplesGroupedByCategory);
 
-    if (category) {
-      const children = this.samplesGroupedByCategory[category.label];
-      return children.map((child: any) => {
-        return new Sample(child.humanName, 
+    if (sampleCategory) {
+      const samples = this.samplesGroupedByCategory[sampleCategory.label];
+      return samples.map((sample: any) => {
+        return new Sample(sample.humanName, 
           TreeItemCollapsibleState.None,
-          child.method,
-          child.requestUrl,
-          child.docLink,
-          child.headers,
-          child.body,
-          child.tip);
+          sample.method,
+          sample.requestUrl,
+          sample.docLink,
+          sample.headers,
+          sample.body,
+          sample.tip);
       });
     }
 
