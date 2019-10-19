@@ -1,7 +1,6 @@
 import { TreeView, ExtensionContext, window, commands, Uri } from 'vscode';
 import * as vscode from 'vscode';
-import SampleQueryProvider from './sampleQueryProvider';
-import HistoryProvider from './historyProvider';
+import SampleQueryProvider from './SamplesProvider';
 // todo fetch sample response 
 const queriesResponse: any = {
   'my profile': {
@@ -22,21 +21,14 @@ const queriesResponse: any = {
 };
 
 export default class SideBar {
-  private historyQueries: any;
   private sampleQueries: any;
   constructor(context: ExtensionContext) {
     const sampleQueriesProvider = new SampleQueryProvider(context);
-    const historyProvider = new HistoryProvider(context);
 
     this.sampleQueries = window.registerTreeDataProvider(
       'sample-queries',
       sampleQueriesProvider
 	);
-	
-    this.historyQueries = window.registerTreeDataProvider(
-      'history',
-      historyProvider
-    );
 
     // register a content provider for the cowsay-scheme
     const myScheme = 'response';
