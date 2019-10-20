@@ -55,5 +55,10 @@
     "typescript": "^3.3.1",
     "tslint": "^5.12.1",
     "vscode-test": "^1.0.0-next.0"
+  },
+  "dependencies": {
+    "@types/request-promise": "^4.1.44",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   }
 }
