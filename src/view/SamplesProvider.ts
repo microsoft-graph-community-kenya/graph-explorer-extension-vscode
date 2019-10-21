@@ -41,7 +41,13 @@ export default class SamplesProvider implements TreeDataProvider<any> {
           sample.docLink,
           sample.headers,
           sample.body,
-          sample.tip);
+          sample.tip,
+          {
+            command: 'sample.click',
+            title: 'click',
+            arguments: [sample]
+          }
+          );
       });
     }
 

@@ -3,7 +3,7 @@ import Sidebar from './view/Sidebar';
 
 export function activate(context: vscode.ExtensionContext) {
   // tslint:disable-next-line: no-unused-expression
-  new Sidebar();
+  new Sidebar(context);
 }
 
 // this method is called when your extension is deactivated
