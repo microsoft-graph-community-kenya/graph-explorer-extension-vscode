@@ -3,12 +3,15 @@ import { window,
    ExtensionContext, 
    workspace, 
    Position, 
-   Range,
+   ViewColumn,
   } from 'vscode';
 
 import SampleQueryProvider from './SamplesProvider';
 import { samples } from './samples/samples';
 import { getSnippetFor } from '../services/snippets';
+import { ISample } from '../types';
+
+const request = require('request-promise');
 
 export default class Sidebar {
   context: ExtensionContext;
@@ -28,7 +31,8 @@ export default class Sidebar {
   private registerClickEvents() {
     commands.registerCommand('sample.click', async (sample) => { 
       const jsSnippet = await getSnippetFor('javascript', sample);
-      this.openTextDocumentWith(jsSnippet);
+      await this.openTextDocumentWith(jsSnippet);
+      this.showDocumentationFor(sample);
     });
   }
 
@@ -40,11 +44,29 @@ export default class Sidebar {
 
   private print(snippet: string) {
     const editor = window.activeTextEditor;
-    const document = editor!.document;
 
     editor!.edit(builder => {
       const start = new Position(0, 0);
       builder.insert(start, snippet);
     });
   }
+
+  private async showDocumentationFor(sample: ISample) {
+    const panel = window.createWebviewPanel(
+      'documentation',
+      'Documentation',
+      ViewColumn.Beside
+      {}
+    );
+
+    panel.webview.html = await this.getWebviewContent(sample);
+  }
+
+  private async getWebviewContent(sample: ISample) {
+    const html = await request({
+      method: 'GET',
+      uri: sample.docLink
+    });
+
+    return html;
 }
