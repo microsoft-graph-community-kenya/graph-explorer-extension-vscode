@@ -3,9 +3,6 @@ import { window,
    ExtensionContext, 
    workspace, 
    Position, 
-   TextDocumentContentProvider, 
-   EventEmitter, 
-   Uri, 
    Range,
   } from 'vscode';
 
@@ -31,26 +28,29 @@ export default class Sidebar {
   private registerClickEvents() {
     commands.registerCommand('sample.click', async (sample) => { 
       const jsSnippet = await getSnippetFor('javascript', sample);
-      this.openTextDocument(jsSnippet);
+      this.openTextDocumentWith(jsSnippet);
     });
   }
 
-  private async print(snippet: string) {
+  private async openTextDocumentWith(snippet: string) {
+    return workspace.openTextDocument({ language: 'javascript' }).then(doc => {
+      window.showTextDocument(doc).then(() => this.print(snippet));
+    });
+  }
+
+  private print(snippet: string) {
     const editor = window.activeTextEditor;
     const document = editor!.document;
 
     editor!.edit(builder => {
-      const start = new Position(0, 0);
-
-      const end = new Position(document!.lineCount, document!.eol);
-      const allRange = new Range(start, end);
-      builder.replace(allRange, snippet);
+      const range = this.getRangeFor(document);
+      builder.replace(range, snippet);
     });
   }
 
-  private async openTextDocument(snippet: string) {
-    return workspace.openTextDocument({ language: 'javascript' }).then(doc => {
-      window.showTextDocument(doc).then(() => this.print(snippet));
-    });
+  private getRangeFor(document: any) {
+    const start = new Position(0, 0);
+    const end = new Position(document!.lineCount, document!.eol);
+    return new Range(start, end);
   }
 }
