@@ -43,14 +43,8 @@ export default class Sidebar {
     const document = editor!.document;
 
     editor!.edit(builder => {
-      const range = this.getRangeFor(document);
-      builder.replace(range, snippet);
+      const start = new Position(0, 0);
+      builder.insert(start, snippet);
     });
-  }
-
-  private getRangeFor(document: any) {
-    const start = new Position(0, 0);
-    const end = new Position(document!.lineCount, document!.eol);
-    return new Range(start, end);
   }
 }
