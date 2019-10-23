@@ -3,7 +3,6 @@ import { window,
    ExtensionContext, 
    workspace, 
    Position, 
-   Range,
   } from 'vscode';
 
 import SampleQueryProvider from './SamplesProvider';
@@ -40,7 +39,6 @@ export default class Sidebar {
 
   private print(snippet: string) {
     const editor = window.activeTextEditor;
-    const document = editor!.document;
 
     editor!.edit(builder => {
       const start = new Position(0, 0);
