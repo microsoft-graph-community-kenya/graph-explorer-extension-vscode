@@ -9,7 +9,7 @@ import { window,
 import SampleQueryProvider from './SamplesProvider';
 import { samples } from './samples/samples';
 import { getSnippetFor } from '../services/snippets';
-import { writeFileWith, runSnippet } from '../core/core';
+import { writeFileWith } from '../core/core';
 
 export default class Sidebar {
   context: ExtensionContext;
@@ -59,6 +59,31 @@ export default class Sidebar {
 
     const snippet = document.getText(range);
     writeFileWith(snippet);
-    runSnippet();
+    this.run();
+  }
+
+  private run() {
+    const { exec } = require('child_process');
+    const path = require('path');
+
+    const runnableSnippet = path.join(__dirname, '../../src/files/snippet.js');
+    console.log(runnableSnippet);
+    exec(`node ${runnableSnippet}`, (error: any, stdout: any, stderr: any) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`${stdout}`);
+      console.error(`${stderr}`);
+
+      const outputChannel = window.createOutputChannel('Snippet Results');
+      outputChannel.show();
+
+      if (stdout) {      
+        outputChannel.append(stdout);
+      } else if (stderr) {
+        outputChannel.append(stderr);
+      }
+    });
   }
 }
