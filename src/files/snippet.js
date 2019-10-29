@@ -12,5 +12,5 @@ const options = {
 
 const client = Client.init(options);
 
-let res = await client.api('/groups/{group-id-with-plan}/planner/plans')
+let res = await client.api('/me/onenote/notebooks')
 	.get();
