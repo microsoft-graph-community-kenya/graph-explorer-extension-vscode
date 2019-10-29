@@ -21,10 +21,20 @@ function createRunnable(snippet: string): string {
   return `
 import "isomorphic-fetch";
 import { Client } from "@microsoft/microsoft-graph-client";
-import { AuthProvider } from "./auth-provider";
+
+class AuthProvider {
+	getAccessToken() {
+    return Promise.resolve("Enter token here");
+	}
+}
 
 const authProvider = new AuthProvider();
 Client.init = Client.initWithMiddleware;
-      
-${snippet}`;
+
+async function runSnippet() {
+  ${snippet}
+}
+
+runSnippet();
+`;
 }
