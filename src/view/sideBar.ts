@@ -3,12 +3,14 @@ import { window,
    ExtensionContext, 
    workspace, 
    Position, 
-   Range,
   } from 'vscode';
 
 import SampleQueryProvider from './SamplesProvider';
 import { samples } from './samples/samples';
 import { getSnippetFor } from '../services/snippets';
+
+const fs = require('fs');
+const path = require('path');
 
 export default class Sidebar {
   context: ExtensionContext;
@@ -29,6 +31,7 @@ export default class Sidebar {
     commands.registerCommand('sample.click', async (sample) => { 
       const jsSnippet = await getSnippetFor('javascript', sample);
       this.openTextDocumentWith(jsSnippet);
+      this.writeFileWith(jsSnippet);
     });
   }
 
@@ -40,11 +43,33 @@ export default class Sidebar {
 
   private print(snippet: string) {
     const editor = window.activeTextEditor;
-    const document = editor!.document;
 
     editor!.edit(builder => {
       const start = new Position(0, 0);
       builder.insert(start, snippet);
     });
+  }
+
+  private writeFileWith(snippet: string) {
+    const snippetFile = path.join(__dirname, '../../src/files/snippet.js');
+    console.log(snippetFile);
+
+    const data = new Uint8Array(Buffer.from(this.createSnippet(snippet)));
+    fs.writeFile(snippetFile, data, (err: any) => {
+      if (err) { throw err; }
+      console.log('The file has been saved!');
+    });
+  }
+  
+  private createSnippet(snippet: string): string {
+    return `
+import "isomorphic-fetch";
+import { Client } from "@microsoft/microsoft-graph-client";
+import { AuthProvider } from "./auth-provider";
+
+const authProvider = new AuthProvider();
+Client.init = Client.initWithMiddleware;
+      
+${snippet}`;
   }
 }
