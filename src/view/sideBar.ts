@@ -9,7 +9,7 @@ import { window,
 import SampleQueryProvider from './SamplesProvider';
 import { samples } from './samples/samples';
 import { getSnippetFor } from '../services/snippets';
-import { writeFileWith } from '../core/core';
+import { writeFileWith, runSnippet } from '../core/core';
 
 export default class Sidebar {
   context: ExtensionContext;
@@ -27,10 +27,10 @@ export default class Sidebar {
   }
 
   private registerClickEvents() {
+    commands.registerCommand('snippet.run', () => this.updateSnippet());
     commands.registerCommand('sample.click', async (sample) => { 
       const jsSnippet = await getSnippetFor('javascript', sample);
       this.openTextDocumentWith(jsSnippet);
-      this.updateSnippet();
     });
   }
 
@@ -58,7 +58,7 @@ export default class Sidebar {
     const range = new Range(start, end);
 
     const snippet = document.getText(range);
-    console.log('Updating snippet');
     writeFileWith(snippet);
+    runSnippet();
   }
 }

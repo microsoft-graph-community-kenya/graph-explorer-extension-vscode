@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
+
+const runnableSnippet = path.join(__dirname, '../../src/files/snippet.js');
 
 export function writeFileWith(snippet: string) {
-  console.log('Writing file');
-  const runnableSnippet = path.join(__dirname, '../../src/files/snippet.js');
-  console.log(path);
   const snippetByteArray = new Uint8Array(Buffer.from(createRunnable(snippet)));
 
   writeFile(runnableSnippet, snippetByteArray);
@@ -37,4 +37,18 @@ async function runSnippet() {
 
 runSnippet();
 `;
+}
+
+export function runSnippet() {
+  exec(`node -r esm ${runnableSnippet}`, (err: any, stdout: any, stderr: any) => {
+    if (err) {
+      console.log(err);
+      // node couldn't execute the command
+      return;
+    }
+
+    // the *entire* stdout and stderr (buffered)
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 }

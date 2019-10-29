@@ -31,10 +31,22 @@
         }
       ]
     },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "snippet.run",
+          "group": "navigation"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "sample.click",
         "title": "click"
+      },
+      {
+        "command": "snippet.run",
+        "title": "run-snippet"
       }
     ]
   },
