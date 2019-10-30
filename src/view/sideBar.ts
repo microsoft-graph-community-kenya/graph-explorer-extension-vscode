@@ -67,7 +67,7 @@ export default class Sidebar {
     const path = require('path');
 
     const runnableSnippet = path.join(__dirname, '../../src/files/snippet.js');
-    console.log(runnableSnippet);
+    
     exec(`node ${runnableSnippet}`, (error: any, stdout: any, stderr: any) => {
       if (error) {
         console.error(`exec error: ${error}`);
