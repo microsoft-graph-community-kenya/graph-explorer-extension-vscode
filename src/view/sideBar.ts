@@ -2,8 +2,8 @@ import { window,
    commands, 
    ExtensionContext, 
    workspace, 
-   Position,
    Range, 
+   Position, 
   } from 'vscode';
 
 import SampleQueryProvider from './SamplesProvider';
@@ -30,7 +30,7 @@ export default class Sidebar {
     commands.registerCommand('snippet.run', () => this.updateSnippet());
     commands.registerCommand('sample.click', async (sample) => { 
       const jsSnippet = await getSnippetFor('javascript', sample);
-      this.openTextDocumentWith(jsSnippet);
+      await this.openTextDocumentWith(jsSnippet);
     });
   }
 
