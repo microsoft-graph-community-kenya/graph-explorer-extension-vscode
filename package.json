@@ -31,10 +31,22 @@
         }
       ]
     },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "snippet.run",
+          "group": "navigation"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "sample.click",
         "title": "click"
+      },
+      {
+        "command": "snippet.run",
+        "title": "run-snippet"
       }
     ]
   },
@@ -57,7 +69,10 @@
     "vscode-test": "^1.0.0-next.0"
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^2.0.0",
     "@types/request-promise": "^4.1.44",
+    "esm": "^3.2.25",
+    "isomorphic-fetch": "^2.2.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   }

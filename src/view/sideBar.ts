@@ -2,16 +2,14 @@ import { window,
    commands, 
    ExtensionContext, 
    workspace, 
+   Range, 
    Position, 
-   ViewColumn,
   } from 'vscode';
 
 import SampleQueryProvider from './SamplesProvider';
 import { samples } from './samples/samples';
 import { getSnippetFor } from '../services/snippets';
-import { ISample } from '../types';
-
-const request = require('request-promise');
+import { writeFileWith } from '../core/core';
 
 export default class Sidebar {
   context: ExtensionContext;
@@ -29,10 +27,10 @@ export default class Sidebar {
   }
 
   private registerClickEvents() {
+    commands.registerCommand('snippet.run', () => this.updateSnippet());
     commands.registerCommand('sample.click', async (sample) => { 
       const jsSnippet = await getSnippetFor('javascript', sample);
       await this.openTextDocumentWith(jsSnippet);
-      this.showDocumentationFor(sample);
     });
   }
 
@@ -51,22 +49,41 @@ export default class Sidebar {
     });
   }
 
-  private async showDocumentationFor(sample: ISample) {
-    const panel = window.createWebviewPanel(
-      'documentation',
-      'Documentation',
-      ViewColumn.Beside
-      {}
-    );
+  private updateSnippet() {
+    const editor = window.activeTextEditor;
+    const document = editor!.document;
 
-    panel.webview.html = await this.getWebviewContent(sample);
+    const start = new Position(0, 0);
+    const end = new Position(document.lineCount, document.eol);
+    const range = new Range(start, end);
+
+    const snippet = document.getText(range);
+    writeFileWith(snippet);
+    this.run();
   }
 
-  private async getWebviewContent(sample: ISample) {
-    const html = await request({
-      method: 'GET',
-      uri: sample.docLink
-    });
+  private run() {
+    const { exec } = require('child_process');
+    const path = require('path');
 
-    return html;
+    const runnableSnippet = path.join(__dirname, '../../src/files/snippet.js');
+    
+    exec(`node ${runnableSnippet}`, (error: any, stdout: any, stderr: any) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`${stdout}`);
+      console.error(`${stderr}`);
+
+      const outputChannel = window.createOutputChannel('Snippet Results');
+      outputChannel.show();
+
+      if (stdout) {      
+        outputChannel.append(stdout);
+      } else if (stderr) {
+        outputChannel.append(stderr);
+      }
+    });
+  }
 }
